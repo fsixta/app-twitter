@@ -1,0 +1,122 @@
+root {
+    display: block;
+}
+
+body {
+    margin: 20px auto;
+    width: 1000px;
+    font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+	background-color: /*#eef*/ black;
+	color: #ccc;
+}
+
+div {
+	padding: 5px; margin: 0px;
+}
+
+h1, h2, p {
+	padding: 0px; margin: 0px;
+}
+
+#header-style {
+	width: 98%;
+    height: 30px;
+    background: 10px 10px black url("../img/twitter_logo_top_bar.png") no-repeat;
+	text-align: right;
+	color: #ddd;
+}
+
+#menu-style {
+	height: 18px;
+    /*border-bottom: 2px solid #bbb;*/
+	background-color: #448;
+    margin: 10px;
+    padding: 0 20px 8px;
+	text-align: left;
+}
+#menu-style a {
+    font-size: 12px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #ddd;
+    outline: none;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+#menu-style a:hover {
+    text-decoration: underline;
+}
+
+#content-style {
+}
+
+#footer-style {
+    text-align: center;
+    border-top: 1px solid #bbb;
+    margin-top: 10px;
+    padding-top: 5px;
+	color: #ddd;
+}
+
+.title {
+	position: relative;
+	width: 500px;
+	height: 26px;
+	font-size: 18px;
+	font-weight: bold;
+	padding: 9px 0 0;
+	margin: 10px 2px;
+	/*background: url("../img/cap40.gif") 0 0 no-repeat;*/
+	/*border-bottom: 2px solid #444;*/
+	color: silver;
+}
+
+.errorTitle {
+	position: relative;
+	width: 500px;
+	height: 26px;
+	font-size: 16px;
+	font-weight: bold;
+	padding: 9px 0 0;
+	margin: 10px 2px;
+	/*border-bottom: 2px solid red;*/
+	color: red;
+}
+
+.stdTextBlock {
+	background-color: #cce;
+	margin: 2px 3px 8px;
+	color: black;
+}
+.stdTextBlock h3 {
+	margin: 5px 2px;
+    font-size: 16px;
+}
+.stdTextBlock p {
+	margin: 0px 12px 5px;
+}
+
+.fs12 {
+	font-size: 12px;
+}
+.fs10 {
+	font-size: 10px;
+}
+
+.flLeft {
+	float: left;
+}
+.flRight {
+	float: right;
+}
+
+.cleaner {
+    clear: both;
+    height: 10px;
+    font-size: 1px;
+    border: none;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+}

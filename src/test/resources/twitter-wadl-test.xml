@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns="http://wadl.dev.java.net/2009/02" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:apigee="http://api.apigee.com/wadl/2010/07/" xsi:schemaLocation="http://wadl.dev.java.net/2009/02 http://apigee.com/schemas/wadl-schema.xsd http://api.apigee.com/wadl/2010/07/ http://apigee.com/schemas/apigee-wadl-extensions.xsd">
+
+    <resources base="https://api.twitter.com/1">
+        <resource path="statuses/home_timeline.{format}">
+            <param name="count" type="xsd:integer" style="query" required="false">
+                <doc>Specifies the number of records to retrieve. Must be less than or equal to 200. </doc>
+            </param>
+            <param name="page" type="xsd:integer" style="query" required="false">
+                <doc>Specifies the page of results to retrieve.</doc>
+            </param>
+            <param name="max_id" type="xsd:string" style="query" required="false">
+                <doc>Returns results with an ID less than (that is, older than) or equal to the specified ID.</doc>
+            </param>
+
+            <method id="statuses.home_timeline" name="GET">
+                <apigee:tags>
+                    <apigee:tag primary="true">Timelines</apigee:tag>
+                </apigee:tags>
+
+                <apigee:authentication required="true" />
+
+                <apigee:example url="statuses/home_timeline.json" />
+
+                <doc apigee:url="http://dev.twitter.com/doc/get/statuses/home_timeline">Returns the most recent statuses, including retweets if they exist, posted by the authenticating user and the user's they follow. This is the same timeline seen by a user when they login to twitter.com. This method is identical to statuses/friends_timeline, except that this method always includes retweets. This method is can only return up to 800 statuses, including retweets, across all pages.</doc>
+            </method>
+        </resource>
+
+        <resource path="statuses/mentions.{format}">
+            <param name="format" type="xsd:string" style="template" required="true">
+                <doc>Response format.</doc>
+                <option value="json" mediaType="application/json" />
+                <option value="xml" mediaType="application/xml" />
+                <option value="rss" mediaType="application/rss+xml" />
+                <option value="atom" mediaType="application/atom+xml" />
+            </param>
+            <param name="count" type="xsd:integer" style="query" required="false">
+                <doc>Specifies the number of records to retrieve. Must be less than or equal to 200.</doc>
+            </param>
+            <param name="since_id" type="xsd:string" style="query" required="false">
+                <doc>Returns results with an ID greater than (that is, more recent than) the specified ID. There are limits to the number of Tweets which can be accessed through the API. If the limit of Tweets has occured since the since_id, the since_id will be forced to the oldest ID available.</doc>
+            </param>
+            <param name="max_id" type="xsd:string" style="query" required="false">
+                <doc>Returns results with an ID less than (that is, older than) or equal to the specified ID.</doc>
+            </param>
+
+            <method id="statusesmentions" name="GET">
+                <apigee:tags>
+                    <apigee:tag primary="true">Timelines</apigee:tag>
+                    <apigee:tag>Mention</apigee:tag>
+                    <apigee:tag>Status</apigee:tag>
+                    <apigee:tag>User</apigee:tag>
+                </apigee:tags>
+
+                <apigee:authentication required="true" />
+
+                <apigee:example url="statuses/mentions.json" />
+
+                <doc apigee:url="https://dev.twitter.com/docs/api/1/get/statuses/mentions"><![CDATA[Returns the 20 most recent mentions (status containing @username) for the authenticating user. The timeline returned is the equivalent of the one seen when you view your mentions on twitter.com. This method can only return up to 800 statuses. If include_rts is set only 800 statuses, including retweets if they exist, can be returned. This method will not include retweets in the XML and JSON responses unless the include_rts parameter is set. The RSS and Atom responses will always include retweets as statuses prefixed with RT.]]></doc>
+            </method>
+        </resource>
+
+        <resource path="statuses/public_timeline.{format}">
+            <param name="trim_user" type="xsd:string" style="query" required="false">
+                <doc>When set to either true, t or 1, each tweet returned in a timeline will include a user object including only the status authors numerical ID. Omit this parameter to receive the complete user object.</doc>
+            </param>
+            <param name="include_entities" type="xsd:string" style="query" required="false">
+                <doc>When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags. While entities are opt-in on timelines at present, they will be made a default component of output in the future.</doc>
+            </param>
+
+            <method id="statusespublic_timeline" name="GET">
+                <apigee:tags>
+                    <apigee:tag primary="true">Timelines</apigee:tag>
+                    <apigee:tag>Status</apigee:tag>
+                </apigee:tags>
+
+                <apigee:authentication required="false" />
+
+                <apigee:example url="statuses/public_timeline.json" />
+
+                <doc apigee:url="https://dev.twitter.com/docs/api/1/get/statuses/public_timeline">Returns the 20 most recent statuses, including retweets if they exist, from non-protected users. The public timeline is cached for 60 seconds. Requesting more frequently than that will not return any more data, and will count against your rate limit usage. Please use the Streaming API's sample capabilities instead for random samplings of tweets. This method will likely be deprecated in the near future.</doc>
+            </method>
+        </resource>
+    </resources>
+
+    <resources base="https://upload.twitter.com/1">
+        <resource path="statuses/update_with_media.{format}">
+            <param name="format" type="xsd:string" style="template" required="true">
+                <doc>Response format.</doc>
+                <option value="json" mediaType="application/json" />
+                <option value="xml" mediaType="application/xml" />
+            </param>
+            <param name="status" type="xsd:string" style="query" required="true">
+                <doc>The text of your status update. URL encode as necessary. t.co link wrapping (https://dev.twitter.com/docs/tco-link-wrapper/faq) may affect character counts if the post contains URLs. You must additionally account for the characters_reserved_per_media per uploaded media, additionally accounting for space characters in between finalized URLs. Note: Request the GET help/configuration (https://dev.twitter.com/docs/api/1/get/help/configuration) endpoint to get the current characters_reserved_per_media and max_media_per_upload values.</doc>
+            </param>
+            <param name="media" type="xsd:string" style="query" required="true">
+                <doc>Up to max_media_per_upload files may be specified in the request, each named media[]. Supported image formats are PNG, JPG and GIF. Animated GIFs are not supported. Note: Request the GET help/configuration (https://dev.twitter.com/docs/api/1/get/help/configuration) endpoint to get the current max_media_per_upload and photo_size_limit values.</doc>
+            </param>
+            <param name="possibly_sensitive" type="xsd:string" style="query" required="false">
+                <doc>Set to true for content which may not be suitable for every audience.</doc>
+            </param>
+            <param name="in_reply_to_status_id" type="xsd:string" style="query" required="false">
+                <doc>The ID of an existing status that the update is in reply to. Note: This parameter will be ignored unless the author of the tweet this parameter references is mentioned within the status text. Therefore, you must include @username, where username is the author of the referenced tweet, within the update.</doc>
+            </param>
+            <param name="lat" type="xsd:string" style="query" required="false">
+                <doc>The latitude of the location this tweet refers to. This parameter will be ignored unless it is inside the range -90.0 to +90.0 (North is positive) inclusive. It will also be ignored if there isn't a corresponding long parameter. Example value: 37.7821120598956.</doc>
+            </param>
+            <param name="long" type="xsd:string" style="query" required="false">
+                <doc>The longitude of the location this tweet refers to. The valid ranges for longitude is -180.0 to +180.0 (East is positive) inclusive. This parameter will be ignored if outside that range, not a number, geo_enabled is disabled, or if there not a corresponding lat parameter. Example value: -122.400612831116.</doc>
+            </param>
+            <param name="place_id" type="xsd:string" style="query" required="false">
+                <doc>A place in the world identified by a Twitter place ID. Place IDs can be retrieved from geo/reverse_geocode.</doc>
+            </param>
+            <param name="display_coordinates" type="xsd:string" style="query" required="false">
+                <doc>Whether or not to put a pin on the exact coordinates a tweet has been sent from.</doc>
+            </param>
+
+            <method id="statuses.update_with_media" name="POST">
+                <apigee:tags>
+                    <apigee:tag primary="true">Tweets</apigee:tag>
+                </apigee:tags>
+
+                <apigee:authentication required="true" />
+
+                <apigee:example url="statuses/update_with_media.json?status={status}&amp;media[]={media}" />
+
+                <doc apigee:url="https://dev.twitter.com/docs/api/1/post/statuses/update_with_media">Updates the authenticating user's status and attaches media for upload. Unlike POST statuses/update (https://dev.twitter.com/docs/api/1/post/statuses/update), this method expects raw multipart data. Your POST request's Content-Type should be set to multipart/form-data with the media[] parameter. The Tweet text will be rewritten to include the media URL(s), which will reduce the number of characters allowed in the Tweet text. If the URL(s) cannot be appended without text truncation, the tweet will be rejected and this method will return an HTTP 403 error. Important: Make sure that you're using upload.twitter.com as your host while posting statuses with media. It is strongly recommended to use SSL with this method.</doc>
+                
+                <request>
+                    <param name="Content-Type" type="xsd:string" style="header" default="multipart/form-data" required="true">
+                        <doc>Content type.</doc>
+                    </param>
+
+                    <representation mediaType="multipart/form-data">
+                    </representation>
+                </request>
+            </method>
+        </resource>
+    </resources>
+
+</application>
